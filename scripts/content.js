@@ -1,60 +1,76 @@
-let ulHeader = document.querySelector("ul.global-nav__primary-items");
+let ulHeader = document.querySelector(".global-nav__primary-items")
 
-let liViewPosts = document.createElement("li");
-
-
-liViewPosts.classList.add("global-nav__primary-item");
-
+let liViewPost = document.createElement("li");
+liViewPost.classList.add("global-nav__primary-item");
 
 let aViewPost = document.createElement("a");
-
-aViewPost.setAttribute("target", "_blank");
-aViewPost.setAttribute("href", "https://www.linkedin.com/my-items/saved-posts");
+aViewPost.setAttribute("target" , "_blank");
+aViewPost.setAttribute("href","https://www.linkedin.com/my-items/saved-posts/");
 aViewPost.classList.add("app-aware-link", "global-nav__primary-link");
 
-let divOutter = document.createElement("div");
-divOutter.classList.add("ivm-imge-view-model", "global-nav__icon-ivm");
+let divOuter = document.createElement("div");
+divOuter.classList.add("ivm-image-view-model", "global-nav__icon-ivm");
 
 let divInner = document.createElement("div");
 divInner.classList.add("ivm-view-attr__img-wrapper", "display-flex");
 
-let img = document.createElement("img");
-img.setAttribute("src", chrome.runtime.getURL("icons/save.png"));
+let image = document.createElement("img");
+image.setAttribute("id","image_saved")
+image.setAttribute("src",chrome.runtime.getURL("icons/save.png"));
 
-divInner.appendChild(img);
-divOutter.appendChild(divInner);
-aViewPost.appendChild(divOutter);
+divInner.appendChild(image);
+divOuter.appendChild(divInner);
+aViewPost.appendChild(divOuter);
 
+let spanViewPost = document.createElement("span");
+spanViewPost.classList.add("t-12", "break-words", "block", "t-black--light", "t-normal", "global-nav__primary-link-text")
+spanViewPost.innerHTML = "saved";
 
-let spanViewPosts = document.createElement("span");
-spanViewPosts.classList.add("t-12", "break-words", "block", "t-black--light", "t-narmalglobal-nav__primary-link-text");
-spanViewPosts.innerHTML = "Saved";
+aViewPost.appendChild(spanViewPost);
+liViewPost.appendChild(aViewPost);
+ulHeader.appendChild(liViewPost);
 
-aViewPost.appendChild(spanViewPosts);
-liViewPosts.appendChild(aViewPost);
-
-ulHeader.appendChild(liViewPosts);
-document.addEventListener("keypress", handlekbd);
-function handlekbd(event){
-if(event.shiftKey && event.altKey && event.code === 'keyO'){
-    aViewPost.click();
-}
-
-}
-let speechRecognition = new webkitSpeechRecognition();
-speechRecognition.continuous = true;
-
-speechRecognition.lang = "en-in";
-speechRecognition.start();
-
-speechRecognition.onresult = (event) => {
-    
-      let transcript = event.results[event.resultIndex][0].transcript;
-
-        console.log(event);
-        if(transcript.trim().toLowerCase().includes("open post")){
+document.addEventListener("keydown", handleKeyDown);
+function handleKeyDown(event){
+    if(event.shiftKey && event.altKey && event.code === "KeyO"){
         aViewPost.click();
     }
+}
 
+
+// Create a SpeechRecognition object
+let speechRecognition = new webkitSpeechRecognition();
+speechRecognition.continuous = true;
+speechRecognition.lang = "en-in";
+
+// Start speech recognition
+speechRecognition.start();
+
+// Handle speech recognition results
+speechRecognition.onresult = (event) => {
+    let transcript = event.results[event.resultIndex][0].transcript;
+
+    console.log(event);
+
+    if (transcript.trim().toLowerCase().includes("open post")) {
+        aViewPost.click();
+    }
 };
 
+
+speechRecognition.onerror = (event) => {
+    console.error('Speech recognition error:', event.error);
+    // Check if the error is "no-speech" and provide specific feedback to the user
+    if (event.error === 'no-speech') {
+        alert("No speech detected. Please speak louder or check your microphone.");
+    } else {
+        alert("Speech recognition error occurred. Please try again later.");
+    }
+};
+
+
+
+// Restart speech recognition after it ends
+speechRecognition.onend = () => {
+    speechRecognition.start();
+};
