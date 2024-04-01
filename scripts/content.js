@@ -52,8 +52,8 @@ speechRecognition.onresult = (event) => {
       let transcript = event.results[event.resultIndex][0].transcript;
 
         console.log(event);
-        if(transcript.trim().toLowerCase().includes("open-post")){
-
+        if(transcript.trim().toLowerCase().includes("open post")){
+        aViewPost.click();
     }
 
 };
