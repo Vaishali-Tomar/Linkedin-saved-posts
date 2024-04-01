@@ -1,0 +1,32 @@
+{
+    "manifest_version": 3,
+    "name": "Linkdin voice assesient",
+    "version": "1.0",
+    "description": "A chrome extention working as a voice",
+    
+    "icons":{
+        "16":"icons/icon-16.png",
+        "32":"icons/icon-32.png",
+        "48":"icons/icon-48.png",
+        "128":"icons/icon-128.png"
+        
+
+    },
+    "content_scripts":[
+    {
+         "js":["scripts/content.js"],
+         "css":["scripts/content.css"],
+         "matches":[
+            "https://www.linkedin.com/*"
+         ]
+    }
+    
+    ],
+    "web_accessible_resources": [{
+        "resources":["icons/save.png"],
+        "matches":["https://www.linkedin.com/*"]
+    }
+],
+
+    "permissions":["activeTab"]
+}
