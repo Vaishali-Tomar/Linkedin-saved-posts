@@ -43,4 +43,8 @@ To view your saved posts:
 
 For any questions, issues, or feature requests, please [https://github.com/Vaishali-Tomar/Linkedin-saved-posts](link) on GitHub.
 
-//show images//
+
+For any questions, issues, or feature requests, feel free to reach out to us. You can submit an issue on [GitHub](link to issue tracker), and we'll be happy to assist you.
+
+
+
